@@ -15,47 +15,47 @@ namespace VotingSystem
     public partial class Result : Form
     {
         private readonly SqlConnection con = new SqlConnection("Data Source=DESKTOP-BU0UST2\\SQLEXPRESS;Database=VotingSystem;User ID=sa;Password=shree;");
-        private SqlDataAdapter da;
-        private DataTable dt;
         public Result()
         {
             InitializeComponent();
-            LoadPartyData();
         }
 
         private void Result_Load(object sender, EventArgs e)
         {
             GetWinnerParty();
-
         }
+
+        
 
         public string GetWinnerParty()
         {
             string query = "SELECT PartyId " +
-                           "FROM Result " +
-                           "GROUP BY PartyId " +
-                           "HAVING COUNT(*) = (SELECT MAX(VoterId) FROM (SELECT COUNT(*) AS VoterID FROM Result GROUP BY PartyId) AS Counts)";
+                   "FROM Result " +
+                   "GROUP BY PartyId " +
+                   "HAVING COUNT(*) = (SELECT MAX(VoterId) FROM (SELECT COUNT(*) AS VoterId FROM Result GROUP BY PartyId) AS Counts)";
 
+
+            con.Open();
             try
             {
-                con.Open();
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     object result = command.ExecuteScalar();
                     if (result != null)
                     {
-
                         string query1 = "SELECT PartyName FROM Party WHERE PartyId = @PartyId";
                         SqlCommand command1 = new SqlCommand(query1, con);
                         command1.Parameters.AddWithValue("@PartyId", int.Parse(result.ToString()));
                         string res = command1.ExecuteScalar().ToString();
                         con.Close();
                          System.Console.WriteLine(res);
-                         ResultL.Text = res;
+                         ResultL.Text = res.ToString();
                         return result.ToString();
                     }
                     else
                     {
+                        System.Console.WriteLine("Inside else");
+                        ResultL.Text = "The voting is not done yet.";
                         return "No votes recorded yet.";
                     }
                 }
@@ -75,32 +75,8 @@ namespace VotingSystem
             }
         }
 
-        private void LoadPartyData()
-        {
-            try
-            {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Party", con))
-                {
-                    da = new SqlDataAdapter(command);
-                    dt = new DataTable();
-                    da.Fill(dt);
-                    PartyDataGridView.DataSource = dt;
-                    con.Close();
-                    //System.Console.WriteLine(con.State);
-                }
-            }
-            catch (Exception ex)
-            {
-                con.Close();
-                MessageBox.Show($"Error loading party data: {ex}");
-                System.Console.WriteLine(ex);
-            }
-            finally
-            {
-                con.Close();
-            }
+        
 
-            con.Close();
-        }
+
     }
 }

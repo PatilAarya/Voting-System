@@ -95,7 +95,7 @@ namespace VotingSystem
                         {
                             MessageBox.Show("Login successful!");
                             int loggedInUserId = GetLoggedInUserIdFromDatabase(username, email, "Teacher");
-                            TeacherView teacherView = new TeacherView(loggedInUserId);
+                            TeacherView teacherView = new TeacherView();
                             teacherView.Show();
                             this.Hide();
                         }
