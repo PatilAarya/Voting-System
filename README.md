@@ -1,5 +1,3 @@
-# I am Aarya Made this Project for developing more skills in C# Technology. 
-
 # Voting System with Windows Form (C#)
 
 ## Overview
