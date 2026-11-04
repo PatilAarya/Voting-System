@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a simple voting system application developed using Windows Forms in C#. The application provides two views: Voter and Teacher. It includes authentication for teachers and allows them to view results and manage parties through CRUD operations.
+This is a simple voting system application developed using Windows Forms in C#. The application provides two views: Voter and Teacher. It includes authentication for teachers and allows them to view results and manage parties through CRUD operations..
 
 ## Features
 
